@@ -13,6 +13,9 @@ const (
 )
 
 fn https(subdomain string, path string) string {
+	if subdomain == '' {
+		return '${@FN}://$domain$path'
+	}
 	return '${@FN}://${subdomain}.$domain$path'
 }
 
@@ -29,7 +32,7 @@ fn index(lang string, title string, canonical string) string {
 		description: base_desc
 	}
 	meta.og.title = base_title
-	meta.og.image = https('www', '/assets/img/og/index.png')
+	meta.og.image = https('', '/assets/img/og/index.png')
 	meta.og.url = canonical
 	meta.og.description = base_desc
 	meta.og.locale = locale
@@ -42,6 +45,6 @@ fn index(lang string, title string, canonical string) string {
 }
 
 fn main() {
-	s := index(language, base_title, https('www', '/'))
+	s := index(language, base_title, https('', '/'))
 	os.write_file('docs/index.html', s) or { panic(err) }
 }
