@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="vlang-tw">
+<meta name="description" content="讓V 程式語言的台灣使用者們一起分享討論的社群，經營V 程式語言在台灣的生態圈。">
+<meta property="og:title" content="V 程式語言台灣使用者社群" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://www.vlang.tw/assets/img/og/index.png" />
+<meta property="og:url" content="https://www.vlang.tw/" />
+<meta property="og:description" content="讓V 程式語言的台灣使用者們一起分享討論的社群，經營V 程式語言在台灣的生態圈。" />
+<meta property="og:locale" content="zh_TW" />
+<meta property="og:site_name" content="vlang.tw" />
+<title>V 程式語言台灣使用者社群</title>
+<link rel="canonical" href="https://www.vlang.tw/" />
+<link rel="icon" type="image/x-icon" href="/favicons/favicon.ico" />
+<style name="reset">
+/* http://meyerweb.com/eric/tools/css/reset/
+v2.0 | 20110126
+License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+margin: 0;
+padding: 0;
+border: 0;
+font-size: 100%;
+font: inherit;
+vertical-align: baseline;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+display: block;
+}
+body {
+line-height: 1;
+}
+ol, ul {
+list-style: none;
+}
+blockquote, q {
+quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+content: '';
+content: none;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+</style>
+<style name="tooltip">
+/* The icon */
+.tooltip-icon {
+margin: auto;
+text-align: center;
+border-radius: 50%;
+width: 1.5em;
+height: 1.5em;
+font-size: 1em;
+line-height: 1.5em;
+cursor: default;
+background-color: #444;
+color: #f0f0f0;
+}
+
+.tooltip-icon:before{
+font-family: sans-serif;
+font-weight:800;
+}
+
+.tooltip-icon.info:before{
+content:'i';
+}
+
+/* The tooltip */
+.tooltip {
+display: none;
+font-family: sans-serif;
+text-rendering: optimizeLegibility;
+-webkit-font-smoothing: antialiased;
+text-align: center;
+background-color: #FFFFFF;
+padding: 0.5em;
+position: absolute;
+border-radius: 0.25em;
+box-shadow: 0 0px 20px 0 rgba(0,0,0,0.1);
+color: #444;
+font-size: 0.75em;
+line-height: 1.125em;
+z-index: 99;
+}
+
+.tooltip.left {
+width: max-content;
+height: auto;
+top: 0;
+right: 2.5em;
+}
+
+/* The pointer of the tooltip */
+.tooltip:before {
+position: absolute;
+content: '';
+width: 0;
+height: 0;
+border: 0.5em solid transparent;
+}
+
+.tooltip.left:before {
+border-left-color: #fff;
+top: 50%;
+right: -1em;
+transform: translateY(-50%);
+}
+
+/* Prevents the tooltip from being hidden when cursor move to the tooltip */
+.tooltip:after {
+content: '';
+position: absolute;
+}
+
+.tooltip.left:after {
+width: 0.5em;
+height: 100%;
+top: 50%;
+right: -0.5em;
+transform: translateY(-50%);
+}
+
+/* Hovers icon to show the tooltip */
+.tooltip-icon:hover .tooltip {
+display:block;
+transform-origin: 100% 0%;
+-webkit-animation: tooltip-fadeIn 0.3s ease;
+animation: tooltip-fadeIn 0.3s ease;
+}
+
+/* CSS animation */
+@-webkit-keyframes tooltip-fadeIn {
+0% { opacity:0; }
+100% { opacity:100%; }
+}
+
+@keyframes tooltip-fadeIn {
+0% { opacity:0; }
+100% { opacity:100%; }
+}
+</style>
+<style name="hamburger">
+.hamburger-item {
+position: relative;
+}
+
+.hamburger-item input.menu-toggle {
+position: absolute;
+top: 0;
+left: 0;
+box-sizing: border-box;
+width: 100%;
+height: 100%;
+margin: 0;
+padding: 0;
+z-index: 2;
+opacity: 0;
+}
+
+.hamburger-item input.menu-toggle:checked+.hamburger>div {
+transform: rotate(135deg);
+}
+
+.hamburger-item input.menu-toggle:checked+.hamburger>div:before,
+.hamburger-item input.menu-toggle:checked+.hamburger>div:after {
+top: 0;
+transform: rotate(90deg);
+}
+
+.hamburger-item input.menu-toggle:checked+.hamburger>div:after {
+opacity: 0;
+}
+
+.hamburger-item input.menu-toggle:checked~.menu {
+pointer-events: auto;
+bottom: 0;
+right: 0;
+visibility: visible;
+}
+
+.hamburger-item input.menu-toggle:checked~.menu>div {
+
+transition-duration: 0.75s;
+}
+
+.hamburger-item .menu {
+position: fixed;
+bottom: -110vh;
+right: -110vw;
+width: 100%;
+height: 100%;
+pointer-events: none;
+visibility: hidden;
+overflow: hidden;
+transition: all 0.4s ease;
+}
+
+.hamburger-item .menu > div {
+width: 100vw;
+height: 100vh;
+color: #fafafa;
+background: #4A607E;
+transition: all 0.4s ease;
+overflow: hidden;
+display: grid;
+grid-template-columns: 1fr;
+grid-template-rows: 4fr 1fr;
+}
+
+.hamburger-item .menu > div ul {
+display: flex;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+.hamburger-item .menu > div ul li {
+width: 80%;
+padding: .5em;
+font: 1.5em sans-serif;
+text-align: center;
+}
+
+.hamburger-item .menu > div ul li+li {
+border-top: #fafafa 1px solid;
+}
+
+.hamburger {
+width: 48px;
+height: 48px;
+background: black;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.hamburger>div {
+position: relative;
+flex: none;
+width: 40%;
+height: 2px;
+background: #fafafa;
+transition: all 0.4s ease;
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 1;
+}
+
+.hamburger>div:before,
+.hamburger>div:after {
+position: absolute;
+content: '';
+top: -10px;
+left: 0;
+width: 100%;
+height: inherit;
+background: inherit;
+transition: all 0.4s ease;
+}
+
+.hamburger>div:after {
+top: 10px;
+}
+</style>
+<style name="base">
+body {
+background-color: #e0e0e0;
+}
+a {
+color: #478cd1;
+text-decoration: none;
+}
+a:hover {
+text-decoration: underline;
+}
+header {
+width: 100vw;
+height: 100vh;
+display: grid;
+grid-template-columns: 40% 60%;
+grid-template-rows: 100%;
+grid-template-areas: "header-cover header-nav";
+}
+header nav {
+grid-area: header-nav;
+display: grid;
+grid-template-columns: 1fr;
+grid-template-rows: 2fr 1fr;
+grid-template-areas: "brick-items" "sub-nav";
+}
+
+nav .sub-nav {
+grid-area: sub-nav;
+display: grid;
+grid-template-columns: 2fr 1fr;
+grid-template-rows: 1fr;
+}
+nav ul.brick-items {
+grid-area: brick-items;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+grid-template-rows: repeat(2, 1fr);
+background-color: #c8d6ea;
+}
+.brick-item {
+display: flex;
+display:  flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+.brick-item svg {
+width: 30%;
+height: auto;
+fill: #fafafa;
+opacity: 0.8;
+filter: drop-shadow(0 0 4px rgba(48,48,48,.6));
+}
+.brick-item a {
+font: 2em sans-serif;
+color: #fafafa;
+width: 100%;
+text-align: center;
+line-height: 2em;
+}
+div.header-cover {
+grid-area: header-cover;
+display:  flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+position: relative;
+background-size: cover;
+background-blend-mode: overlay;
+}
+div.header-cover h1 {
+font-family: sans-serif;
+font-size: 2.2em;
+margin-top: .5em;
+padding: 0.2em;
+text-align: center;
+word-break: normal;
+text-shadow: 2px 2px 2px #fafafa;
+}
+div.header-cover .tooltip-icon {
+position: absolute;
+top: 0.5em;
+right: 0.5em;
+}
+.svg-container svg {
+display: block;
+margin-left: auto;
+margin-right: auto;
+}
+</style>
+<style>
+div.header-cover {
+background-image: url(/assets/img/header_background.jpg), linear-gradient(to top, hsl(0deg 0% 40%) 0%, hsl(0deg 0% 60%) 30%, hsl(0deg 0% 60%) 70%, hsl(0deg 0% 40%) 100%);
+}
+
+#community-logo {
+width: 120pt;
+height: auto;
+filter: drop-shadow(0px -4px 16px rgba(255, 255, 255, 0.7));
+}
+
+.sub-nav .hamburger {
+width: 100%;
+height: 100%;
+margin: 0 auto;
+background-color: #e9b10c;
+}
+</style>
+<style media="(orientation: landscape)">
+header {
+grid-template-columns: 40% 60%;
+grid-template-rows: 100%;
+grid-template-areas: "header-cover header-nav";
+}
+
+.sub-nav .hamburger>div {
+height: 1vw;
+}
+
+.sub-nav .hamburger>div:before {
+top: -2.5vw;
+}
+
+.sub-nav .hamburger>div:after {
+top: 2.5vw;
+}
+</style>
+<style media="(orientation: portrait)">
+header {
+grid-template-columns: 100%;
+grid-template-rows: 40% 60%;
+grid-template-areas: "header-cover"" header-nav";
+}
+
+.sub-nav .hamburger>div {
+height: 1vh;
+}
+
+.sub-nav .hamburger>div:before {
+top: -2.5vh;
+}
+
+.sub-nav .hamburger>div:after {
+top: 2.5vh;
+}
+</style>
+<style media="(orientation: portrait) and (max-width: 400px)">
+div.header-cover h1 {
+font-size: 1.5em;
+width: 5.5em;
+}
+
+#community-logo {
+width: 84pt;
+}
+
+.brick-item a {
+font-size: .8em;
+}
+</style>
+<style media="(orientation: portrait) and (min-width: 400px) and (max-width: 600px)">
+div.header-cover h1 {
+font-size: 1.8em;
+}
+
+#community-logo {
+width: 108pt;
+}
+
+.brick-item a {
+font-size: 1.2em;
+}
+</style>
+<style media="(orientation: landscape)  and (max-width:1000px)">
+div.header-cover h1 {
+font-size: 1.5em;
+width: 5.5em;
+}
+
+#community-logo {
+width: 84pt;
+}
+
+.brick-item a {
+font-size: 1em;
+}
+</style>
+<style media="(orientation: landscape) and (min-width:1000px) and (max-width:1200px)">
+div.header-cover h1 {
+font-size: 1.8em;
+}
+
+#community-logo {
+width: 108pt;
+}
+
+.brick-item a {
+font-size: 1.5em;
+}
+</style>
+</head>
+
+<body>
+<header>
+<div class="header-cover">
+<div class="tooltip-icon info">
+<div class="tooltip left">
+Photo by <a href="https://unsplash.com/@joannakosinska?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Joanna Kosinska</a>
+</div>
+</div>
+<div class="svg-container">
+<svg id="community-logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+style="isolation:isolate" viewBox="0 0 500 500">
+<defs>
+<clipPath id="_clipPath_nKq3XcDekU5b11h1uZg6Qp7z6GUYT1e6">
+<rect width="500" height="500" />
+</clipPath>
+</defs>
+<g clip-path="url(#_clipPath_nKq3XcDekU5b11h1uZg6Qp7z6GUYT1e6)">
+<defs>
+<filter id="Yt8esRuwCXhzaMyV43VcwYPuBZBYdn7K" x="-200%" y="-200%" width="400%" height="400%"
+filterUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+<feGaussianBlur xmlns="http://www.w3.org/2000/svg" in="SourceGraphic"
+stdDeviation="1.2880827188517086" />
+<feOffset xmlns="http://www.w3.org/2000/svg" dx="0" dy="0" result="pf_100_offsetBlur" />
+<feFlood xmlns="http://www.w3.org/2000/svg" flood-color="#536B8A" flood-opacity="1" />
+<feComposite xmlns="http://www.w3.org/2000/svg" in2="pf_100_offsetBlur" operator="in"
+result="pf_100_dropShadow" />
+<feBlend xmlns="http://www.w3.org/2000/svg" in="SourceGraphic" in2="pf_100_dropShadow" mode="normal" />
+</filter>
+</defs>
+<g filter="url(#Yt8esRuwCXhzaMyV43VcwYPuBZBYdn7K)">
+<path
+d=" M 121.86 464.866 L 121.86 471.886 L 121.86 471.886 Q 110.264 472.926 102.62 472.926 L 102.62 472.926 L 102.62 472.926 Q 97.524 472.926 95.132 470.534 L 95.132 470.534 L 95.132 470.534 Q 92.74 468.142 92.74 463.046 L 92.74 463.046 L 92.74 446.406 L 92.74 446.406 Q 92.74 440.946 95.21 438.476 L 95.21 438.476 L 95.21 438.476 Q 97.68 436.006 103.14 436.006 L 103.14 436.006 L 121.86 436.006 L 121.86 443.286 L 105.22 443.286 L 105.22 443.286 Q 102.1 443.286 102.1 446.406 L 102.1 446.406 L 102.1 463.046 L 102.1 463.046 Q 102.1 464.242 102.802 464.944 L 102.802 464.944 L 102.802 464.944 Q 103.504 465.646 104.596 465.646 L 104.596 465.646 L 104.596 465.646 Q 105.688 465.646 106.988 465.62 L 106.988 465.62 L 106.988 465.62 Q 108.288 465.594 109.692 465.542 L 109.692 465.542 L 109.692 465.542 Q 111.096 465.49 112.526 465.438 L 112.526 465.438 L 112.526 465.438 Q 113.956 465.386 116.218 465.23 L 116.218 465.23 L 116.218 465.23 Q 118.48 465.074 121.86 464.866 L 121.86 464.866 Z  M 149.42 462.526 L 149.42 445.886 L 149.42 445.886 Q 149.42 442.766 146.3 442.766 L 146.3 442.766 L 137.46 442.766 L 137.46 442.766 Q 134.34 442.766 134.34 445.886 L 134.34 445.886 L 134.34 462.526 L 134.34 462.526 Q 134.34 465.646 137.46 465.646 L 137.46 465.646 L 146.3 465.646 L 146.3 465.646 Q 149.42 465.646 149.42 462.526 L 149.42 462.526 Z  M 158.78 445.886 L 158.78 462.526 L 158.78 462.526 Q 158.78 467.986 156.31 470.456 L 156.31 470.456 L 156.31 470.456 Q 153.84 472.926 148.38 472.926 L 148.38 472.926 L 135.38 472.926 L 135.38 472.926 Q 129.92 472.926 127.45 470.456 L 127.45 470.456 L 127.45 470.456 Q 124.98 467.986 124.98 462.526 L 124.98 462.526 L 124.98 445.886 L 124.98 445.886 Q 124.98 440.426 127.45 437.956 L 127.45 437.956 L 127.45 437.956 Q 129.92 435.486 135.38 435.486 L 135.38 435.486 L 148.38 435.486 L 148.38 435.486 Q 153.84 435.486 156.31 437.956 L 156.31 437.956 L 156.31 437.956 Q 158.78 440.426 158.78 445.886 L 158.78 445.886 Z  M 195.18 472.406 L 195.18 452.126 L 187.9 465.126 L 180.62 465.126 L 173.34 452.126 L 173.34 472.406 L 163.98 472.406 L 163.98 436.006 L 173.86 436.006 L 184.26 455.246 L 194.66 436.006 L 204.54 436.006 L 204.54 472.406 L 195.18 472.406 Z  M 241.98 472.406 L 241.98 452.126 L 234.7 465.126 L 227.42 465.126 L 220.14 452.126 L 220.14 472.406 L 210.78 472.406 L 210.78 436.006 L 220.66 436.006 L 231.06 455.246 L 241.46 436.006 L 251.34 436.006 L 251.34 472.406 L 241.98 472.406 Z  M 280.98 462.526 L 280.98 436.006 L 290.34 436.006 L 290.34 462.526 L 290.34 462.526 Q 290.34 467.986 287.87 470.456 L 287.87 470.456 L 287.87 470.456 Q 285.4 472.926 279.94 472.926 L 279.94 472.926 L 267.98 472.926 L 267.98 472.926 Q 262.52 472.926 260.05 470.456 L 260.05 470.456 L 260.05 470.456 Q 257.58 467.986 257.58 462.526 L 257.58 462.526 L 257.58 436.006 L 266.94 436.006 L 266.94 462.526 L 266.94 462.526 Q 266.94 465.646 270.06 465.646 L 270.06 465.646 L 277.86 465.646 L 277.86 465.646 Q 280.98 465.646 280.98 462.526 L 280.98 462.526 Z  M 328.3 436.006 L 328.3 472.406 L 318.42 472.406 L 305.94 450.566 L 305.94 472.406 L 296.58 472.406 L 296.58 436.006 L 306.46 436.006 L 318.94 457.846 L 318.94 436.006 L 328.3 436.006 Z  M 351.7 465.126 L 351.7 472.406 L 332.98 472.406 L 332.98 465.126 L 337.66 465.126 L 337.66 443.286 L 332.98 443.286 L 332.98 436.006 L 351.7 436.006 L 351.7 443.286 L 347.02 443.286 L 347.02 465.126 L 351.7 465.126 Z  M 374.06 443.286 L 374.06 472.406 L 364.7 472.406 L 364.7 443.286 L 353.78 443.286 L 353.78 436.006 L 384.98 436.006 L 384.98 443.286 L 374.06 443.286 Z  M 398.24 462.786 L 384.46 436.006 L 394.34 436.006 L 402.92 453.686 L 411.5 436.006 L 421.38 436.006 L 407.6 462.786 L 407.6 472.406 L 398.24 472.406 L 398.24 462.786 Z "
+fill="rgb(93,135,191)" />
+</g>
+<g>
+<path
+d=" M 306.618 400.808 L 426.837 66.502 C 428.876 60.833 425.662 56.698 419.665 57.277 L 325.124 66.384 C 319.127 66.962 312.649 72.051 310.668 77.74 L 199.393 397.227 C 197.411 402.916 200.694 407.535 206.718 407.535 L 298.74 407.535 C 301.752 407.535 305.025 405.234 306.045 402.399 L 306.618 400.808 Z "
+fill="rgb(83,107,138)" />
+<defs>
+<filter id="D0v34K2CzvAYhXvnZ97DvWLdEBQqOMqX" x="-200%" y="-200%" width="400%" height="400%"
+filterUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+<feGaussianBlur xmlns="http://www.w3.org/2000/svg" in="SourceGraphic"
+stdDeviation="6.440413594258542" />
+<feOffset xmlns="http://www.w3.org/2000/svg" dx="0" dy="0" result="pf_100_offsetBlur" />
+<feFlood xmlns="http://www.w3.org/2000/svg" flood-color="#000000" flood-opacity="0.65" />
+<feComposite xmlns="http://www.w3.org/2000/svg" in2="pf_100_offsetBlur" operator="in"
+result="pf_100_dropShadow" />
+<feBlend xmlns="http://www.w3.org/2000/svg" in="SourceGraphic" in2="pf_100_dropShadow"
+mode="normal" />
+</filter>
+</defs>
+<g filter="url(#D0v34K2CzvAYhXvnZ97DvWLdEBQqOMqX)">
+<path d=" M 292.904 402.399 L 242.849 257.804 L 250 253.334 L 300.948 400.808 L 292.904 402.399 Z "
+fill="rgb(235,235,235)" />
+</g>
+<path
+d=" M 80.335 57.277 L 174.876 66.384 C 180.873 66.962 187.358 72.048 189.349 77.734 L 302.977 402.384 C 303.972 405.228 302.334 407.535 299.321 407.535 L 206.718 407.535 C 200.694 407.535 194.146 402.932 192.108 397.263 L 73.163 66.502 C 71.124 60.833 74.338 56.698 80.335 57.277 Z "
+fill="rgb(93,135,191)" />
+</g>
+<g filter="url(#jW699LzpztKm4ngv5A3Aw0XanbxYkpaW)">
+<path
+d=" M 277.543 77.074 L 275.543 77.074 C 273.888 77.074 272.157 75.787 271.681 74.201 L 268.043 62.074 L 264.405 74.201 C 263.93 75.787 262.199 77.074 260.543 77.074 L 258.543 77.074 L 254.543 77.074 L 254.543 77.074 C 252.888 77.074 251.217 75.77 250.816 74.164 L 242.271 39.985 C 241.869 38.378 240.199 37.074 238.543 37.074 L 234.543 37.074 L 241.543 27.074 L 248.543 27.074 C 250.199 27.074 251.807 28.392 252.132 30.016 L 258.21 60.407 L 262.429 49.86 C 263.044 48.322 264.888 47.074 266.543 47.074 L 266.543 47.074 L 269.543 47.074 C 271.199 47.074 273.043 48.322 273.657 49.86 L 277.877 60.407 L 283.955 30.016 C 284.28 28.392 285.888 27.074 287.543 27.074 L 291.543 27.074 C 293.199 27.074 294.543 28.418 294.543 30.074 L 294.543 34.074 C 294.543 35.73 294.217 38.378 293.816 39.985 L 285.271 74.164 C 284.869 75.77 283.199 77.074 281.543 77.074 L 277.543 77.074 L 277.543 77.074 Z "
+fill-rule="evenodd" fill="rgb(109,147,197)" />
+<path
+d=" M 219.543 37.074 L 219.543 75.074 C 219.543 76.178 220.439 77.074 221.543 77.074 L 226.543 77.074 C 228.199 77.074 229.543 75.73 229.543 74.074 L 229.543 37.074 L 238.543 37.074 L 245.543 27.074 L 211.543 27.074 C 209.888 27.074 208.044 28.322 207.429 29.86 L 205.657 34.289 C 205.043 35.826 205.888 37.074 207.543 37.074 L 219.543 37.074 Z "
+fill-rule="evenodd" fill="rgb(84,122,172)" />
+</g>
+<defs>
+<filter id="jW699LzpztKm4ngv5A3Aw0XanbxYkpaW" x="-200%" y="-200%" width="400%" height="400%"
+filterUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+<feGaussianBlur xmlns="http://www.w3.org/2000/svg" in="SourceGraphic"
+stdDeviation="1.2880827188517086" />
+<feOffset xmlns="http://www.w3.org/2000/svg" dx="0" dy="0" result="pf_100_offsetBlur" />
+<feFlood xmlns="http://www.w3.org/2000/svg" flood-color="#536B8A" flood-opacity="1" />
+<feComposite xmlns="http://www.w3.org/2000/svg" in2="pf_100_offsetBlur" operator="in"
+result="pf_100_dropShadow" />
+<feBlend xmlns="http://www.w3.org/2000/svg" in="SourceGraphic" in2="pf_100_dropShadow" mode="normal" />
+</filter>
+</defs>
+</g>
+</svg>
+</div>
+<h1>V 程式語言台灣使用者社群</h1>
+</div>
+<nav>
+<ul class="brick-items">
+<li class="brick-item" style="background-color: #5D87BF;">
+<div class="svg-container">
+<svg id="simple-icon-v" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>V icon</title>
+<path
+d="M15.583 23.4965c.0673.1924-.0435.3484-.2472.3484h-6.262c-.4075 0-.8502-.3113-.9881-.6947L.0426.7837C-.105.3925.149.1152.5276.1599l6.393.6158c.4056.0391.8441.383.9787.7675l7.6837 21.9533zM23.4736.1599l-6.393.6159c-.4055.0391-.8436.3832-.9775.7678l-3.8275 10.9895 3.6784 10.5098L23.9586.7837c.1378-.3834-.0795-.663-.485-.6238z" />
+</svg>
+</div>
+<a href="https://vlang.io/">V 官方網站</a>
+</li>
+<li class="brick-item" style="background-color: #FC60A8;">
+<div class="svg-container">
+<svg id="simple-icon-awesome" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+<title>Awesome Lists icon</title>
+<path
+d="M24 11.438l-6.154-5.645-.865.944 5.128 4.7H1.895l5.128-4.705-.865-.943-6.154 5.649H0v3.72c0 1.683 1.62 3.053 3.61 3.053h3.795c1.99 0 3.61-1.37 3.61-3.051v-2.446h1.97v2.446c0 1.68 1.62 3.051 3.61 3.051h3.794c1.99 0 3.61-1.37 3.61-3.051v-3.721z" />
+</svg>
+</div>
+<a href="https://github.com/vlang/awesome-v">Awesome V</a>
+</li>
+<li class="brick-item" style="background-color: #181717;">
+<div class="svg-container">
+<svg id="simple-icon-github" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>GitHub icon</title>
+<path
+d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+</svg>
+</div>
+<a href="https://github.com/vlang-tw">社群GitHub</a>
+</li>
+<li class="brick-item" style="background-color: #17377F;">
+<div class="svg-container">
+<svg id="simple-icon-mewe" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>MeWe icon</title>
+<path
+d="M3.029 7.712a.768.768 0 100 1.536.768.768 0 000-1.536zm7.883 0a.768.768 0 100 1.536.768.768 0 000-1.536zm4.414 0a.768.768 0 100 1.536.768.768 0 000-1.536zm4.418 0a.768.768 0 100 1.537.768.768 0 000-1.537zm-4.447 2.307c-.27 0-.453.175-.54.428l-1.378 4.175-1.403-4.193a.546.546 0 00-.532-.392c-.296 0-.55.227-.55.523 0 .07.018.148.044.21l1.805 5.056c.105.279.296.444.558.444h.105c.261 0 .461-.165.557-.444l1.36-3.985 1.36 3.985c.096.279.288.444.55.444h.105c.261 0 .462-.174.558-.444l1.804-5.057a.617.617 0 00.052-.218.525.525 0 00-.531-.514c-.262 0-.445.166-.523.383l-1.404 4.202-1.377-4.175c-.079-.253-.27-.428-.541-.428zM.54 10.045a.538.538 0 00-.54.541v5.117c0 .297.227.523.523.523a.52.52 0 00.532-.523V12.05l1.482 2.224c.113.174.253.279.444.279.201 0 .34-.105.454-.28l1.49-2.24v3.661a.54.54 0 00.533.532.53.53 0 00.54-.532v-5.108a.538.538 0 00-.54-.54h-.114a.54.54 0 00-.488.278L3 13.227 1.15 10.333a.565.565 0 00-.497-.288zm8.368 1.439c-1.316 0-2.25 1.081-2.25 2.397v.018c0 1.42 1.03 2.389 2.363 2.389.715 0 1.239-.236 1.657-.61a.46.46 0 00.14-.323.415.415 0 00-.419-.427.391.391 0 00-.27.096 1.655 1.655 0 01-1.09.4c-.68 0-1.212-.418-1.325-1.168h2.885c.27 0 .497-.209.497-.505 0-1.064-.723-2.267-2.188-2.267zm12.904 0c-1.317 0-2.25 1.081-2.25 2.397v.018c0 1.42 1.029 2.389 2.363 2.389.715 0 1.238-.236 1.657-.61a.46.46 0 00.139-.323.415.415 0 00-.418-.427.392.392 0 00-.271.096 1.652 1.652 0 01-1.09.4c-.68 0-1.211-.418-1.325-1.168h2.886c.27 0 .497-.209.497-.505 0-1.064-.724-2.267-2.188-2.267zm-12.913.863c.698 0 1.099.532 1.169 1.212H7.705c.096-.715.549-1.212 1.194-1.212zm12.904 0c.697 0 1.098.532 1.168 1.212h-2.363c.096-.715.55-1.212 1.195-1.212z" />
+</svg>
+</div>
+<a href="https://mewe.com/join/vlangtw">MeWe社群</a>
+</li>
+<li class="brick-item" style="background-color: #1877F2;">
+<div class="svg-container">
+<svg id="simple-icon-facebook" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+<title>Facebook icon</title>
+<path
+d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+</svg>
+</div>
+<a href="https://www.facebook.com/groups/vlang.tw">Fackbook社團</a>
+</li>
+</ul>
+<div class="sub-nav">
+<div class="brick-item" style="background-color: #56B04C;">
+<a href="mailto:contact@vlang.tw">contact@vlang.tw</a>
+</div>
+<div class="hamburger-item">
+<input class="menu-toggle" type="checkbox" />
+<div class="hamburger">
+<div></div>
+</div>
+<div class="menu">
+<div>
+<ul>
+<li>(ﾟ∀ﾟ)</li>
+<li>ᕕ ( ᐛ ) ᕗ</li>
+<li>∠( ᐛ 」∠)_</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+</body>
+
+</html>
