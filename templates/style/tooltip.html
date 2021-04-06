@@ -1,0 +1,108 @@
+<style name="tooltip">
+    /* The icon */
+    .tooltip-icon {
+        margin: auto;
+        text-align: center;
+        border-radius: 50%;
+        width: 1.5em;
+        height: 1.5em;
+        font-size: 1em;
+        line-height: 1.5em;
+        cursor: default;
+        background-color: #444;
+        color: #f0f0f0;
+    }
+
+    .tooltip-icon:before {
+        font-family: sans-serif;
+        font-weight: 800;
+    }
+
+    .tooltip-icon.info:before {
+        content: 'i';
+    }
+
+    /* The tooltip */
+    .tooltip {
+        display: none;
+        font-family: sans-serif;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        text-align: center;
+        background-color: #FFFFFF;
+        padding: 0.5em;
+        position: absolute;
+        border-radius: 0.25em;
+        box-shadow: 0 0px 20px 0 rgba(0, 0, 0, 0.1);
+        color: #444;
+        font-size: 0.75em;
+        line-height: 1.125em;
+        z-index: 99;
+    }
+
+    .tooltip.left {
+        width: max-content;
+        height: auto;
+        top: 0;
+        right: 2.5em;
+    }
+
+    /* The pointer of the tooltip */
+    .tooltip:before {
+        position: absolute;
+        content: '';
+        width: 0;
+        height: 0;
+        border: 0.5em solid transparent;
+    }
+
+    .tooltip.left:before {
+        border-left-color: #fff;
+        top: 50%;
+        right: -1em;
+        transform: translateY(-50%);
+    }
+
+    /* Prevents the tooltip from being hidden when cursor move to the tooltip */
+    .tooltip:after {
+        content: '';
+        position: absolute;
+    }
+
+    .tooltip.left:after {
+        width: 0.5em;
+        height: 100%;
+        top: 50%;
+        right: -0.5em;
+        transform: translateY(-50%);
+    }
+
+    /* Hovers icon to show the tooltip */
+    .tooltip-icon:hover .tooltip {
+        display: block;
+        transform-origin: 100% 0%;
+        -webkit-animation: tooltip-fadeIn 0.3s ease;
+        animation: tooltip-fadeIn 0.3s ease;
+    }
+
+    /* CSS animation */
+    @@-webkit-keyframes tooltip-fadeIn {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 100%;
+        }
+    }
+
+    @@keyframes tooltip-fadeIn {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 100%;
+        }
+    }
+</style>

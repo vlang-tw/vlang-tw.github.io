@@ -1,0 +1,103 @@
+<style name="base">
+	body {
+		background-color: #e0e0e0;
+	}
+
+	a {
+		color: #478cd1;
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	header {
+		width: 100vw;
+		height: 100vh;
+		display: grid;
+		grid-template-columns: 40% 60%;
+		grid-template-rows: 100%;
+		grid-template-areas: "header-cover header-nav";
+	}
+
+	header nav {
+		grid-area: header-nav;
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: 2fr 1fr;
+		grid-template-areas: "brick-items""sub-nav";
+	}
+
+	nav .sub-nav {
+		grid-area: sub-nav;
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		grid-template-rows: 1fr;
+	}
+
+	nav ul.brick-items {
+		grid-area: brick-items;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: repeat(2, 1fr);
+		background-color: #c8d6ea;
+	}
+
+	.brick-item {
+		display: flex;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.brick-item svg {
+		width: 30%;
+		height: auto;
+		fill: #fafafa;
+		opacity: 0.8;
+		filter: drop-shadow(0 0 4px rgba(48, 48, 48, .6));
+	}
+
+	.brick-item a {
+		font: 2em sans-serif;
+		color: #fafafa;
+		width: 100%;
+		text-align: center;
+		line-height: 2em;
+	}
+
+	div.header-cover {
+		grid-area: header-cover;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		background-size: cover;
+		background-blend-mode: overlay;
+	}
+
+	div.header-cover h1 {
+		font-family: sans-serif;
+		font-size: 2.2em;
+		margin-top: .5em;
+		padding: 0.2em;
+		text-align: center;
+		word-break: normal;
+		text-shadow: 2px 2px 2px #fafafa;
+	}
+
+	div.header-cover .tooltip-icon {
+		position: absolute;
+		top: 0.5em;
+		right: 0.5em;
+	}
+
+	.svg-container svg {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+</style>
