@@ -1,2 +1,6 @@
 # worktree
 docs/
+# original imges
+assets/img/
+# token
+TINIFY_API_KEY
