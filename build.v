@@ -1,6 +1,7 @@
 module main
 
 import os
+import time
 import lib
 
 const (
@@ -19,9 +20,31 @@ fn https(subdomain string, path string) string {
 	return '${@FN}://${subdomain}.$domain$path'
 }
 
-pub fn unplash_attribution_html(author_id string, author_name string) string {
+fn unplash_attribution_html(author_id string, author_name string) string {
 	params := 'utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText'
 	return 'Photo by <a href="https://unsplash.com/$author_id?$params">$author_name</a>'
+}
+
+fn gen_url_set(work_path string, enpoint string) []lib.URLentry {
+	len := work_path.len
+	paths := os.walk_ext(work_path, 'html')
+	time_now := time.now()
+	mut entry := []lib.URLentry{}
+	for path in paths {
+		mut sub := path[len..]
+		if sub == 'index.html' {
+			entry << lib.URLentry{
+				loc: enpoint
+				lastmod: time_now.ymmdd()
+			}
+		} else {
+			entry << lib.URLentry{
+				loc: '$enpoint$sub'
+				lastmod: time_now.ymmdd()
+			}
+		}
+	}
+	return entry
 }
 
 //==========
@@ -44,7 +67,15 @@ fn index(lang string, title string, canonical string) string {
 	return $tmpl('templates/index.html')
 }
 
+fn sitemap(url_set []lib.URLentry) string {
+	return $tmpl('templates/sitemap.xml')
+}
+
 fn main() {
-	s := index(language, base_title, https('', '/'))
+	endpoint := https('', '/')
+	mut s := ''
+	s = index(language, base_title, endpoint)
 	os.write_file('docs/index.html', s) or { panic(err) }
+	s = sitemap(gen_url_set('docs/', endpoint))
+	os.write_file('docs/sitemap.xml', s) or { panic(err) }
 }

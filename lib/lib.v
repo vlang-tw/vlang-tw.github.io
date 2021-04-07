@@ -18,3 +18,9 @@ pub mut:
 	description string
 	og          OGData = OGData{}
 }
+
+pub struct URLentry {
+pub mut:
+	loc     string
+	lastmod string
+}
