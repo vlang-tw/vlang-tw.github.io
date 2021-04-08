@@ -711,6 +711,14 @@ d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 
 </header>
 <script>
 (() => {
+function toggleTabindex(value) {
+els = document.querySelectorAll("[toggle-tabindex]");
+tabindex = value ? -1 : 0;
+for (const el of els) {
+el.setAttribute("tabindex", tabindex)
+}
+}
+
 let menuToggle = document.getElementById("x-menu-toggle");
 let menuItems = document.getElementById("x-menu-items");
 let tempElementMap = {}
@@ -718,14 +726,9 @@ if (menuToggle && menuItems) {
 // Observe menu toggling
 let menuToggleProxy = new Proxy(menuToggle, {
 set(target, key, value) {
-
 if (key == "checked") {
 // Control tabindex by toggling menu
-els = document.querySelectorAll("[toggle-tabindex]");
-tabindex = value ? -1 : 0;
-for (const el of els) {
-el.setAttribute("tabindex", tabindex)
-}
+toggleTabindex(value)
 }
 
 target[key] = value;
@@ -759,6 +762,10 @@ if (actEl.id == "x-menu-hamburger") {
 menuToggleProxy.checked = !menuToggle.checked;
 }
 }
+})
+// Update proxy  from original element
+menuToggle.addEventListener("change", ev => {
+menuToggleProxy.checked = menuToggle.checked;
 })
 // Close menu  when click menu item
 menuItems.addEventListener("click", ev => {
