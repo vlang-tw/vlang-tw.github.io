@@ -279,11 +279,12 @@ justify-content: center;
 
 .hamburger>div {
 width: 40%;
-height: 80%;
+height: 60%;
 display: flex;
 justify-content: center;
 align-items: center;
 z-index: 1;
+padding: 0 10%;
 }
 
 .hamburger>div>div {
@@ -326,7 +327,7 @@ a:hover {
 text-decoration: underline;
 }
 
-a:focus, div:focus {
+a:focus, div:focus, li:focus {
 outline-style: double;
 outline-color: #ffffff;
 outline-width: 4px;
@@ -712,18 +713,58 @@ d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 
 (() => {
 let menuToggle = document.getElementById("x-menu-toggle");
 let menuItems = document.getElementById("x-menu-items");
+let tempElementMap = {}
 if (menuToggle && menuItems) {
-menuToggle.addEventListener("change" , ev => {
+// Observe menu toggling
+let menuToggleProxy = new Proxy(menuToggle, {
+set(target, key, value) {
+
+if (key == "checked") {
+// Control tabindex by toggling menu
 els = document.querySelectorAll("[toggle-tabindex]");
-tabindex = ev.target.checked ? -1: 0;
+tabindex = value ? -1 : 0;
 for (const el of els) {
 el.setAttribute("tabindex", tabindex)
 }
+}
+
+target[key] = value;
+return true;
+},
 })
+// Tracking keyboard
+window.addEventListener("keyup", ev => {
+let actEl = document.activeElement
+
+if (ev.key == "Tab") {
+// Show content if tooltip is focused
+if (actEl.classList.contains("tooltip-icon")) {
+let tooltipEl = actEl.querySelector(".tooltip")
+if (tooltipEl) {
+tooltipEl.style.display = "block"
+tempElementMap.tooltipEl = tooltipEl
+}
+} else {
+if (tempElementMap.tooltipEl) {
+if (actEl.parentElement != tempElementMap.tooltipEl) {
+tempElementMap.tooltipEl.style.display = ""
+delete tempElementMap.tooltipEl
+}
+}
+}
+}
+if (ev.key == "Enter") {
+// Use Enter to toggle menu
+if (actEl.id == "x-menu-hamburger") {
+menuToggleProxy.checked = !menuToggle.checked;
+}
+}
+})
+// Close menu  when click menu item
 menuItems.addEventListener("click", ev => {
 target = ev.target;
 if (target.nodeName == "LI") {
-menuToggle.checked = false;
+menuToggleProxy.checked = false;
 }
 })
 }
