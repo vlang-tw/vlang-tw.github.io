@@ -3,12 +3,14 @@
 
 <head>
     @include 'head/base'
+    <link rel="preload" as="image" href="/assets/img/header_background.jpg">
     @include 'style/reset'
     @include 'style/tooltip'
     @include 'style/hamburger'
     @include 'style/base'
     <style>
         div.header-cover {
+            background-color: #f4c025;
             background-image: url(/assets/img/header_background.jpg), linear-gradient(to top, hsl(0deg 0% 40%) 0%, hsl(0deg 0% 60%) 30%, hsl(0deg 0% 60%) 70%, hsl(0deg 0% 40%) 100%);
         }
 

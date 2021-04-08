@@ -11,7 +11,7 @@ timestamp() {
 }
 
 echo -e "\033[0;32mBuilding site...\033[0m"
-#build_command
+build_command
 
 echo -e "\033[0;32mDeploying $branch branch... ($(timestamp))\033[0m"
 cd $directory &&
