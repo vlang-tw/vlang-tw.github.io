@@ -1,0 +1,21 @@
+<script>
+    (() => {
+        let menuToggle = document.getElementById("x-menu-toggle");
+        let menuItems = document.getElementById("x-menu-items");
+        if (menuToggle && menuItems) {
+            menuToggle.addEventListener("change" , ev => {
+                els = document.querySelectorAll("[toggle-tabindex]");
+                tabindex = ev.target.checked ? -1: 0;
+                for (const el of els) {
+                    el.setAttribute("tabindex", tabindex)
+                }
+            })
+            menuItems.addEventListener("click", ev => {
+                target = ev.target;
+                if (target.nodeName == "LI") {
+                    menuToggle.checked = false;
+                }
+            })
+        }
+    })();
+</script>

@@ -10,7 +10,7 @@
     @include 'style/base'
     <style>
         div.header-cover {
-            background-color: #f4c025;
+            background-color: #808080;
             background-image: url(/assets/img/header_background.jpg), linear-gradient(to top, hsl(0deg 0% 40%) 0%, hsl(0deg 0% 60%) 30%, hsl(0deg 0% 60%) 70%, hsl(0deg 0% 40%) 100%);
         }
 
@@ -34,15 +34,15 @@
             grid-template-areas: "header-cover header-nav";
         }
 
-        .sub-nav .hamburger>div {
+        .sub-nav .hamburger>div>div {
             height: 1vw;
         }
 
-        .sub-nav .hamburger>div:before {
+        .sub-nav .hamburger>div>div:before {
             top: -2.5vw;
         }
 
-        .sub-nav .hamburger>div:after {
+        .sub-nav .hamburger>div>div:after {
             top: 2.5vw;
         }
     </style>
@@ -53,15 +53,15 @@
             grid-template-areas: "header-cover"" header-nav";
         }
 
-        .sub-nav .hamburger>div {
+        .sub-nav .hamburger>div>div {
             height: 1vh;
         }
 
-        .sub-nav .hamburger>div:before {
+        .sub-nav .hamburger>div>div:before {
             top: -2.5vh;
         }
 
-        .sub-nav .hamburger>div:after {
+        .sub-nav .hamburger>div>div:after {
             top: 2.5vh;
         }
     </style>
@@ -136,7 +136,7 @@
 <body>
     <header>
         <div class="header-cover">
-            <div class="tooltip-icon info">
+            <div toggle-tabindex class="tooltip-icon info" tabindex="0">
                 <div class="tooltip left">
                     @{html_unplash_attribution}
                 </div>
@@ -152,48 +152,50 @@
                     <div class="svg-container">
                         @include 'svg/simple-icon-v'
                     </div>
-                    <a href="https://vlang.io/">V 官方網站</a>
+                    <a toggle-tabindex href="https://vlang.io/">V 官方網站</a>
                 </li>
                 <li class="brick-item" style="background-color: #FC60A8;">
                     <div class="svg-container">
                         @include 'svg/simple-icon-awesome'
                     </div>
-                    <a href="https://github.com/vlang/awesome-v">Awesome V</a>
+                    <a toggle-tabindex href="https://github.com/vlang/awesome-v">Awesome V</a>
                 </li>
                 <li class="brick-item" style="background-color: #181717;">
                     <div class="svg-container">
                         @include 'svg/simple-icon-github'
                     </div>
-                    <a href="https://github.com/vlang-tw">社群GitHub</a>
+                    <a toggle-tabindex href="https://github.com/vlang-tw">社群GitHub</a>
                 </li>
                 <li class="brick-item" style="background-color: #17377F;">
                     <div class="svg-container">
                         @include 'svg/simple-icon-mewe'
                     </div>
-                    <a href="https://mewe.com/join/vlangtw">MeWe社群</a>
+                    <a toggle-tabindex href="https://mewe.com/join/vlangtw">MeWe社群</a>
                 </li>
                 <li class="brick-item" style="background-color: #1877F2;">
                     <div class="svg-container">
                         @include 'svg/simple-icon-facebook'
                     </div>
-                    <a href="https://www.facebook.com/groups/vlang.tw">Fackbook社團</a>
+                    <a toggle-tabindex href="https://www.facebook.com/groups/vlang.tw">Fackbook社團</a>
                 </li>
             </ul>
             <div class="sub-nav">
                 <div class="brick-item email" style="background-color: #56B04C;">
-                    <a href="mailto:@email">@email</a>
+                    <a toggle-tabindex href="mailto:@email">@email</a>
                 </div>
                 <div class="hamburger-item">
-                    <input class="menu-toggle" type="checkbox" />
+                    <input id="x-menu-toggle" class="menu-toggle" type="checkbox" tabindex="-1" />
                     <div class="hamburger">
-                        <div></div>
+                        <div id="x-menu-hamburger" tabindex="0">
+                            <div></div>
+                        </div>
                     </div>
                     <div class="menu">
                         <div>
-                            <ul>
-                                <li>(ﾟ∀ﾟ)</li>
-                                <li>ᕕ ( ᐛ ) ᕗ</li>
-                                <li>∠( ᐛ 」∠)_</li>
+                            <ul id="x-menu-items">
+                                <li tabindex="1">(ﾟ∀ﾟ)</li>
+                                <li tabindex="2">ᕕ ( ᐛ ) ᕗ</li>
+                                <li tabindex="3">∠( ᐛ 」∠)_</li>
                             </ul>
                         </div>
                     </div>
@@ -201,6 +203,7 @@
             </div>
         </nav>
     </header>
+    @include 'script/js_index.html'
 </body>
 
 </html>
