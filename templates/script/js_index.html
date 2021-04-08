@@ -50,6 +50,11 @@
                     if (actEl.id == "x-menu-hamburger") {
                         menuToggleProxy.checked = !menuToggle.checked;
                     }
+                    // Use Enter to choose menu item
+                    if (actEl.hasAttribute("goto")) {
+                        menuToggleProxy.checked = false;
+                        console.log(actEl.getAttribute("goto"))
+                    }
                 }
             })
             // Update proxy  from original element
@@ -61,6 +66,7 @@
                 target = ev.target;
                 if (target.nodeName == "LI") {
                     menuToggleProxy.checked = false;
+                    console.log(target.getAttribute("goto"))
                 }
             })
         }
