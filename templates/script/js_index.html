@@ -2,18 +2,58 @@
     (() => {
         let menuToggle = document.getElementById("x-menu-toggle");
         let menuItems = document.getElementById("x-menu-items");
+        let tempElementMap = {}
         if (menuToggle && menuItems) {
-            menuToggle.addEventListener("change" , ev => {
-                els = document.querySelectorAll("[toggle-tabindex]");
-                tabindex = ev.target.checked ? -1: 0;
-                for (const el of els) {
-                    el.setAttribute("tabindex", tabindex)
+            // Observe menu toggling
+            let menuToggleProxy = new Proxy(menuToggle, {
+                set(target, key, value) {
+
+                    if (key == "checked") {
+                        // Control tabindex by toggling menu
+                        els = document.querySelectorAll("[toggle-tabindex]");
+                        tabindex = value ? -1 : 0;
+                        for (const el of els) {
+                            el.setAttribute("tabindex", tabindex)
+                        }
+                    }
+
+                    target[key] = value;
+                    return true;
+                },
+            })
+            // Tracking keyboard
+            window.addEventListener("keyup", ev => {
+                let actEl = document.activeElement
+
+                if (ev.key == "Tab") {
+                    // Show content if tooltip is focused
+                    if (actEl.classList.contains("tooltip-icon")) {
+                        let tooltipEl = actEl.querySelector(".tooltip")
+                        if (tooltipEl) {
+                            tooltipEl.style.display = "block"
+                            tempElementMap.tooltipEl = tooltipEl
+                        }
+                    } else {
+                        if (tempElementMap.tooltipEl) {
+                            if (actEl.parentElement != tempElementMap.tooltipEl) {
+                                tempElementMap.tooltipEl.style.display = ""
+                                delete tempElementMap.tooltipEl
+                            }
+                        }
+                    }
+                }
+                if (ev.key == "Enter") {
+                    // Use Enter to toggle menu
+                    if (actEl.id == "x-menu-hamburger") {
+                        menuToggleProxy.checked = !menuToggle.checked;
+                    }
                 }
             })
+            // Close menu  when click menu item
             menuItems.addEventListener("click", ev => {
                 target = ev.target;
                 if (target.nodeName == "LI") {
-                    menuToggle.checked = false;
+                    menuToggleProxy.checked = false;
                 }
             })
         }
