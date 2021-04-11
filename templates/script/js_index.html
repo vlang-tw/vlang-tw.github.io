@@ -1,5 +1,38 @@
 <script>
     (() => {
+        /* === Simple SPA routing  === */
+        const routes = [
+            { path: "/", view: "index" },
+        ];
+        // routing function
+        function router() {
+            let match = routes.find(r => window.location.pathname == r.path);
+            if (!match) {
+                match = { path: window.location.pathname, view: "404" };
+            }
+            document.dispatchEvent(new CustomEvent("spa_view", { detail: match }));
+        }
+        // routing when history changes
+        window.addEventListener("popstate", ev => {
+            router();
+        })
+        // routing when DOM fully loaded and parsed
+        document.addEventListener("DOMContentLoaded", ev => {
+            router();
+        })
+        // custom event from `navigateTo()`
+        document.addEventListener("spa_navigate", ev => {
+            window.history.pushState(null, null, ev.detail.url);
+            router();
+        })
+    })();
+</script>
+<script>
+    (() => {
+        function navigateTo(url) {
+            document.dispatchEvent(new CustomEvent("spa_navigate", { detail: { url } }))
+        }
+
         function toggleTabindex(value) {
             els = document.querySelectorAll("[toggle-tabindex]");
             tabindex = value ? -1 : 0;
@@ -8,6 +41,13 @@
             }
         }
 
+        /* === SPA view === */
+        // custom event from `router()`
+        document.addEventListener("spa_view", ev => {
+            console.log(ev.detail)
+        })
+
+        /* === Menu  === */
         let menuToggle = document.getElementById("x-menu-toggle");
         let menuItems = document.getElementById("x-menu-items");
         let tempElementMap = {}
@@ -53,7 +93,7 @@
                     // Use Enter to choose menu item
                     if (actEl.hasAttribute("goto")) {
                         menuToggleProxy.checked = false;
-                        console.log(actEl.getAttribute("goto"))
+                        navigateTo(actEl.getAttribute("goto"))
                     }
                 }
             })
@@ -66,7 +106,7 @@
                 target = ev.target;
                 if (target.nodeName == "LI") {
                     menuToggleProxy.checked = false;
-                    console.log(target.getAttribute("goto"))
+                    navigateTo(target.getAttribute("goto"))
                 }
             })
         }
