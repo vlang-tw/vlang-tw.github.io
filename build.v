@@ -62,13 +62,17 @@ fn index(lang string, title string, canonical string) string {
 	meta.og.site_name = domain
 	// email
 	email := 'contact@$domain'
-	// Unsplash Photo 
+	// Unsplash Photo
 	html_unplash_attribution := unplash_attribution_html('@joannakosinska', 'Joanna Kosinska')
 	return $tmpl('templates/index.html')
 }
 
 fn sitemap(url_set []lib.URLentry) string {
 	return $tmpl('templates/sitemap.xml')
+}
+
+fn notfound(lang string, title string) string {
+	return $tmpl('templates/404.html')
 }
 
 fn main() {
@@ -78,4 +82,6 @@ fn main() {
 	os.write_file('docs/index.html', s) or { panic(err) }
 	s = sitemap(gen_url_set('docs/', endpoint))
 	os.write_file('docs/sitemap.xml', s) or { panic(err) }
+	s = notfound(language, base_title)
+	os.write_file('docs/404.html', s) or { panic(err) }
 }
