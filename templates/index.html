@@ -9,6 +9,40 @@
     @include 'style/hamburger'
     @include 'style/base'
     <style>
+        body[current-view="not-found"] {
+            position: relative;
+        }
+
+        body[current-view="not-found"]::before,
+        body[current-view="not-found"]::after {
+            display: block;
+            text-align: center;
+            position: absolute;
+            white-space: nowrap;
+            color: #444;
+        }
+
+        body[current-view="not-found"]::before {
+            content: "404 Not Found";
+            font: 2.2em sans-serif;
+            font-weight: bold;
+            top: 45vh;
+            left: 50vw;
+            transform: translate(-50%, -45%);
+        }
+
+        body[current-view="not-found"]::after {
+            content: "vlang.tw";
+            font: 2em monospace;
+            top: 55vh;
+            left: 50vw;
+            transform: translate(-50%, -55%);
+        }
+
+        body[current-view="not-found"] header {
+            display: none;
+        }
+
         div.header-cover {
             background-color: #808080;
             background-image: url(/assets/img/header_background.jpg), linear-gradient(to top, hsl(0deg 0% 40%) 0%, hsl(0deg 0% 60%) 30%, hsl(0deg 0% 60%) 70%, hsl(0deg 0% 40%) 100%);

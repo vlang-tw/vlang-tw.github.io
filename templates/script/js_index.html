@@ -44,7 +44,16 @@
         /* === SPA view === */
         // custom event from `router()`
         document.addEventListener("spa_view", ev => {
-            console.log(ev.detail)
+            let { path, view } = ev.detail
+            switch (view) {
+                case "index":
+                    document.body.setAttribute("current-view", "");
+                    break;
+                case "404":
+                default:
+                    document.body.setAttribute("current-view", "not-found")
+                    break;
+            }
         })
 
         /* === Menu  === */
