@@ -25,7 +25,7 @@ fn unplash_attribution_html(author_id string, author_name string) string {
 	return 'Photo by <a href="https://unsplash.com/$author_id?$params">$author_name</a>'
 }
 
-fn gen_url_set(work_path string, enpoint string) []lib.URLentry {
+fn gen_url_set(work_path string, enpoint string, additionals []string) []lib.URLentry {
 	len := work_path.len
 	paths := os.walk_ext(work_path, 'html')
 	time_now := time.now()
@@ -37,11 +37,17 @@ fn gen_url_set(work_path string, enpoint string) []lib.URLentry {
 				loc: enpoint
 				lastmod: time_now.ymmdd()
 			}
-		} else {
+		} else if sub != '404.html' {
 			entry << lib.URLentry{
 				loc: '$enpoint$sub'
 				lastmod: time_now.ymmdd()
 			}
+		}
+	}
+	for path in additionals {
+		entry << lib.URLentry{
+			loc: '$enpoint$path'
+			lastmod: time_now.ymmdd()
 		}
 	}
 	return entry
@@ -80,7 +86,8 @@ fn main() {
 	mut s := ''
 	s = index(language, base_title, endpoint)
 	os.write_file('docs/index.html', s) or { panic(err) }
-	s = sitemap(gen_url_set('docs/', endpoint))
+	additionals := ['about-us']
+	s = sitemap(gen_url_set('docs/', endpoint, additionals))
 	os.write_file('docs/sitemap.xml', s) or { panic(err) }
 	s = notfound(language, base_title)
 	os.write_file('docs/404.html', s) or { panic(err) }
