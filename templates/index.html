@@ -9,40 +9,6 @@
     @include 'style/hamburger'
     @include 'style/base'
     <style>
-        body[current-view="not-found"] {
-            position: relative;
-        }
-
-        body[current-view="not-found"]::before,
-        body[current-view="not-found"]::after {
-            display: block;
-            text-align: center;
-            position: absolute;
-            white-space: nowrap;
-            color: #444;
-        }
-
-        body[current-view="not-found"]::before {
-            content: "404 Not Found";
-            font: 2.2em sans-serif;
-            font-weight: bold;
-            top: 45vh;
-            left: 50vw;
-            transform: translate(-50%, -45%);
-        }
-
-        body[current-view="not-found"]::after {
-            content: "vlang.tw";
-            font: 2em monospace;
-            top: 55vh;
-            left: 50vw;
-            transform: translate(-50%, -55%);
-        }
-
-        body[current-view="not-found"] header {
-            display: none;
-        }
-
         div.header-cover {
             background-color: #808080;
             background-image: url(/assets/img/header_background.jpg), linear-gradient(to top, hsl(0deg 0% 40%) 0%, hsl(0deg 0% 60%) 30%, hsl(0deg 0% 60%) 70%, hsl(0deg 0% 40%) 100%);
@@ -59,6 +25,27 @@
             height: 100%;
             margin: 0 auto;
             background-color: #e9b10c;
+        }
+
+        header+section {
+            display: grid;
+            grid-template-columns: 4fr 1fr;
+            grid-template-rows: 1fr;
+        }
+
+        header+section>section:last-child {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 2fr 1fr;
+        }
+
+        article[page="about-us"] {
+            background-color: #d9c8a6;
+        }
+
+        section div.brick-item svg {
+            width: 10vw;
+            height: auto;
         }
     </style>
     <style media="(orientation: landscape)">
@@ -79,6 +66,21 @@
         .sub-nav .hamburger>div>div:after {
             top: 2.5vw;
         }
+
+        header+section {
+            grid-template-columns: 4fr 1fr;
+            grid-template-rows: 1fr;
+        }
+
+        header+section>section:last-child {
+            grid-template-columns: 1fr;
+            grid-template-rows: 2fr 1fr;
+        }
+
+        section div.brick-item svg {
+            width: 10vw;
+            height: auto;
+        }
     </style>
     <style media="(orientation: portrait)">
         header {
@@ -97,6 +99,21 @@
 
         .sub-nav .hamburger>div>div:after {
             top: 2.5vh;
+        }
+
+        header+section {
+            grid-template-columns: 1fr;
+            grid-template-rows: 4fr 1fr;
+        }
+
+        header+section>section:last-child {
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 1fr;
+        }
+
+        section div.brick-item svg {
+            width: 10vh;
+            height: auto;
         }
     </style>
     <style media="(orientation: portrait) and (max-width: 400px)">
@@ -250,6 +267,24 @@
             </div>
         </nav>
     </header>
+    <section>
+        <section>
+            <article page="about-us">
+                <div>
+                    <h2>關於我們</h2>
+                    <p>@{meta.description}</p>
+                </div>
+            </article>
+            <article page=""></article>
+        </section>
+        <section>
+            <div class="brick-item" style="background-color: #5D87BF;">
+                <div toggle-tabindex="view" class="svg-container" tabindex="1" goto="/">
+                    @include 'svg/icomoon-home3'
+                </div>
+            </div>
+        </section>
+    </section>
     @include 'script/js_index.html'
 </body>
 

@@ -3,6 +3,7 @@
         /* === Simple SPA routing  === */
         const routes = [
             { path: "/", view: "index" },
+            { path: "/about-us", view: "about-us" },
         ];
         // routing function
         function router() {
@@ -33,13 +34,30 @@
             document.dispatchEvent(new CustomEvent("spa_navigate", { detail: { url } }))
         }
 
-        function toggleTabindex(value) {
-            els = document.querySelectorAll("[toggle-tabindex]");
+        function cancelTabindex(value, attrValue = null) {
+            let s = (typeof attrValue == "string") ? "[toggle-tabindex='" + attrValue + "']" : "[toggle-tabindex]";
+            els = document.querySelectorAll(s);
             tabindex = value ? -1 : 0;
             for (const el of els) {
                 el.setAttribute("tabindex", tabindex)
             }
         }
+
+        /* === Mutation Observer === */
+        const mutObs = new MutationObserver((mutationsList, observer) => {
+            for (const mutation of mutationsList) {
+                if (mutation.type == "attributes") {
+                    let v = mutation.target.getAttribute(mutation.attributeName)
+                    cancelTabindex(v !== "index")
+                    cancelTabindex(false, "view")
+                }
+            }
+        });
+        // observe `current-view` attribute on document body
+        mutObs.observe(document.body, {
+            attributeFilter: ["current-view"],
+            attributeOldValue: true
+        })
 
         /* === SPA view === */
         // custom event from `router()`
@@ -47,7 +65,14 @@
             let { path, view } = ev.detail
             switch (view) {
                 case "index":
-                    document.body.setAttribute("current-view", "");
+                    document.body.setAttribute("current-view", "index");
+                    break;
+                case "about-us":
+                    document.body.setAttribute("current-view", 'page:' + view);
+                    let els = document.body.querySelectorAll("article[page]")
+                    for (const el of els) {
+                        el.classList.toggle("display", el.getAttribute("page") == view);
+                    }
                     break;
                 case "404":
                 default:
@@ -55,6 +80,12 @@
                     break;
             }
         })
+        // Navigate the route by clicking on the element
+        for (const el of document.querySelectorAll("[goto]")) {
+            el.addEventListener("click", ev => {
+                navigateTo(ev.target.getAttribute("goto"))
+            })
+        }
 
         /* === Menu  === */
         let menuToggle = document.getElementById("x-menu-toggle");
@@ -66,7 +97,13 @@
                 set(target, key, value) {
                     if (key == "checked") {
                         // Control tabindex by toggling menu
-                        toggleTabindex(value)
+                        let v = document.body.getAttribute("current-view")
+                        if (v !== "index") {
+                            cancelTabindex(true)
+                            cancelTabindex(value, "view")
+                        } else {
+                            cancelTabindex(value)
+                        }
                     }
 
                     target[key] = value;
@@ -115,7 +152,6 @@
                 target = ev.target;
                 if (target.nodeName == "LI") {
                     menuToggleProxy.checked = false;
-                    navigateTo(target.getAttribute("goto"))
                 }
             })
         }

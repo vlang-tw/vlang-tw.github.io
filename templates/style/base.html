@@ -12,10 +12,12 @@
 		text-decoration: underline;
 	}
 
-	a:focus, div:focus, li:focus {
-    outline-style: double;
-    outline-color: #ffffff;
-    outline-width: 4px;
+	a:focus,
+	div:focus,
+	li:focus {
+		outline-style: double;
+		outline-color: #ffffff;
+		outline-width: 4px;
 	}
 
 	header {
@@ -106,5 +108,80 @@
 		display: block;
 		margin-left: auto;
 		margin-right: auto;
+	}
+
+	div.svg-container[goto]:hover svg {
+		opacity: 1;
+		cursor: pointer;
+	}
+</style>
+<style name="base:page">
+	body[current-view="not-found"] {
+		position: relative;
+	}
+
+	body[current-view="not-found"]::before,
+	body[current-view="not-found"]::after {
+		display: block;
+		text-align: center;
+		position: absolute;
+		white-space: nowrap;
+		color: #444;
+	}
+
+	body[current-view="not-found"]::before {
+		content: "404 Not Found";
+		font: 2.2em sans-serif;
+		font-weight: bold;
+		top: 45vh;
+		left: 50vw;
+		transform: translate(-50%, -45%);
+	}
+
+	body[current-view="not-found"]::after {
+		content: "vlang.tw";
+		font: 2em monospace;
+		top: 55vh;
+		left: 50vw;
+		transform: translate(-50%, -55%);
+	}
+
+	body[current-view="not-found"] header {
+		display: none;
+	}
+
+	body[current-view^="page:"] header+section {
+		visibility: visible;
+		left: 0;
+		pointer-events: auto;
+	}
+
+	header+section {
+		position: fixed;
+		top: 0;
+		left: -110vw;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		visibility: hidden;
+		overflow: hidden;
+		transition: all 0.4s ease;
+		z-index: 1;
+	}
+
+	header+section article[page] {
+		width: 100%;
+		height: 100%;
+		transition: all 0.4s ease;
+		overflow: hidden;
+		display: none;
+	}
+
+	article[page].display {
+		display: block !important;
+	}
+
+	[goto] * {
+		pointer-events: none !important;
 	}
 </style>
