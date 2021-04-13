@@ -6,12 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="vlang-tw">
-<meta name="description" content="讓V 程式語言的台灣使用者們一起分享討論的社群，經營V 程式語言在台灣的生態圈。">
+<meta name="description" content="提供使用 V 程式語言的台灣開發者可以一起分享討論的社群，共同經營V 程式語言在台灣的應用生態圈。">
 <meta property="og:title" content="V 程式語言台灣使用者社群" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="https://vlang.tw/assets/img/og/index.png" />
 <meta property="og:url" content="https://vlang.tw/" />
-<meta property="og:description" content="讓V 程式語言的台灣使用者們一起分享討論的社群，經營V 程式語言在台灣的生態圈。" />
+<meta property="og:description" content="提供使用 V 程式語言的台灣開發者可以一起分享討論的社群，共同經營V 程式語言在台灣的應用生態圈。" />
 <meta property="og:locale" content="zh_TW" />
 <meta property="og:site_name" content="vlang.tw" />
 <title>V 程式語言台灣使用者社群</title>
@@ -194,8 +194,12 @@ width: 100%;
 height: 100%;
 margin: 0;
 padding: 0;
-z-index: 2;
+z-index: 99;
 opacity: 0;
+}
+
+.hamburger-item input.menu-toggle:hover {
+cursor: pointer;
 }
 
 .hamburger-item input.menu-toggle:checked+.hamburger>div>div {
@@ -234,6 +238,7 @@ pointer-events: none;
 visibility: hidden;
 overflow: hidden;
 transition: all 0.4s ease;
+z-index: 96;
 }
 
 .hamburger-item .menu>div {
@@ -263,6 +268,20 @@ font: 1.5em sans-serif;
 text-align: center;
 }
 
+.hamburger-item .menu>div ul li[tabindex]:hover {
+background-color: rgba(200, 200, 200, .3);
+}
+
+.hamburger-item .menu>div ul li::before {
+content: "...";
+margin-right: 0.5em;
+color: #9cafc9;
+}
+
+.hamburger-item .menu>div ul li[tabindex]::before {
+content: ">>";
+}
+
 .hamburger-item .menu>div ul li+li {
 border-top: #fafafa 1px solid;
 }
@@ -283,7 +302,7 @@ height: 60%;
 display: flex;
 justify-content: center;
 align-items: center;
-z-index: 1;
+z-index: 97;
 padding: 0 10%;
 }
 
@@ -294,7 +313,7 @@ width: 100%;
 height: 2px;
 background: #fafafa;
 transition: all 0.4s ease;
-z-index: 2;
+z-index: 98;
 }
 
 .hamburger>div>div:before,
@@ -327,7 +346,9 @@ a:hover {
 text-decoration: underline;
 }
 
-a:focus, div:focus, li:focus {
+a:focus,
+div:focus,
+li:focus {
 outline-style: double;
 outline-color: #ffffff;
 outline-width: 4px;
@@ -367,9 +388,8 @@ background-color: #c8d6ea;
 
 .brick-item {
 display: flex;
-display: flex;
 flex-direction: column;
-justify-content: center;
+justify-content: space-evenly;
 align-items: center;
 overflow: hidden;
 }
@@ -422,6 +442,92 @@ display: block;
 margin-left: auto;
 margin-right: auto;
 }
+
+div.svg-container[goto]:hover svg {
+opacity: 1;
+cursor: pointer;
+}
+</style>
+<style name="base:page">
+body[current-view="not-found"] {
+position: relative;
+}
+
+body[current-view="not-found"]::before,
+body[current-view="not-found"]::after {
+display: block;
+text-align: center;
+position: absolute;
+white-space: nowrap;
+color: #444;
+}
+
+body[current-view="not-found"]::before {
+content: "404 Not Found";
+font: 2.2em sans-serif;
+font-weight: bold;
+top: 45vh;
+left: 50vw;
+transform: translate(-50%, -45%);
+}
+
+body[current-view="not-found"]::after {
+content: "vlang.tw";
+font: 2em monospace;
+top: 55vh;
+left: 50vw;
+transform: translate(-50%, -55%);
+}
+
+body[current-view="not-found"] header {
+display: none;
+}
+
+body[current-view^="page:"] header+section {
+visibility: visible;
+left: 0;
+pointer-events: auto;
+}
+
+header+section {
+position: fixed;
+top: 0;
+left: -110vw;
+width: 100%;
+height: 100%;
+pointer-events: none;
+visibility: hidden;
+overflow: hidden;
+transition: all 0.4s ease;
+z-index: 1;
+}
+
+header+section article[page] {
+width: 100%;
+height: 100%;
+transition: all 0.4s ease;
+overflow: hidden;
+display: none;
+}
+
+article[page].display {
+display: block !important;
+}
+
+article[page]>.page-layout {
+width: 100%;
+height: 100%;
+}
+
+.page-layout.flex {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+[goto] * {
+pointer-events: none !important;
+}
 </style>
 <style>
 div.header-cover {
@@ -440,6 +546,71 @@ width: 100%;
 height: 100%;
 margin: 0 auto;
 background-color: #e9b10c;
+}
+
+header+section {
+display: grid;
+grid-template-columns: 4fr 1fr;
+grid-template-rows: 1fr;
+}
+
+header+section>section:last-child {
+display: grid;
+grid-template-columns: 1fr;
+grid-template-rows: 2fr 1fr;
+}
+
+
+article[page="about-us"] {
+background-color: #d9c8a6;
+}
+
+.page-layout section {
+width: 80%;
+}
+
+.page-layout section h2 {
+font: bold 1.2em sans-serif;
+padding: .4em;
+margin: .8em 0;
+text-align: center;
+line-height: 1.2em;
+color: #444;
+letter-spacing: .1em;
+position: relative;
+}
+
+.page-layout section h2::before,
+.page-layout section h2::after {
+content: "";
+position: absolute;
+bottom: 0;
+height: 4px;
+opacity: .8;
+}
+
+.page-layout section h2::before {
+left: 35%;
+width: 20%;
+background-color: #7593bd;
+}
+
+.page-layout section h2::after {
+right: 35%;
+width: 10%;
+background-color: #cfa117;
+}
+
+.page-layout section p {
+font: 1.1em serif;
+line-height: 1.1em;
+text-indent: 2em;
+text-align: justify;
+}
+
+section div.brick-item svg {
+width: 10vw;
+height: auto;
 }
 </style>
 <style media="(orientation: landscape)">
@@ -460,6 +631,21 @@ top: -2.5vw;
 .sub-nav .hamburger>div>div:after {
 top: 2.5vw;
 }
+
+header+section {
+grid-template-columns: 4fr 1fr;
+grid-template-rows: 1fr;
+}
+
+header+section>section:last-child {
+grid-template-columns: 1fr;
+grid-template-rows: 2fr 1fr;
+}
+
+section div.brick-item svg {
+width: 10vw;
+height: auto;
+}
 </style>
 <style media="(orientation: portrait)">
 header {
@@ -478,6 +664,21 @@ top: -2.5vh;
 
 .sub-nav .hamburger>div>div:after {
 top: 2.5vh;
+}
+
+header+section {
+grid-template-columns: 1fr;
+grid-template-rows: 4fr 1fr;
+}
+
+header+section>section:last-child {
+grid-template-columns: 2fr 1fr;
+grid-template-rows: 1fr;
+}
+
+section div.brick-item svg {
+width: 10vh;
+height: auto;
 }
 </style>
 <style media="(orientation: portrait) and (max-width: 400px)">
@@ -546,6 +747,19 @@ width: 108pt;
 font-size: 1.5em;
 }
 </style>
+<script type="text/javascript">
+/* https://github.com/rafgraph/spa-github-pages/blob/gh-pages/index.html */
+(function (l) {
+if (l.search[1] === '/') {
+var decoded = l.search.slice(1).split('&').map(function (s) {
+return s.replace(/~and~/g, '&')
+}).join('?');
+window.history.replaceState(null, null,
+l.pathname.slice(0, -1) + decoded + l.hash
+);
+}
+}(window.location))
+</script>
 </head>
 
 <body>
@@ -699,9 +913,8 @@ d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 
 <div class="menu">
 <div>
 <ul id="x-menu-items">
-<li tabindex="1">(ﾟ∀ﾟ)</li>
-<li tabindex="2">ᕕ ( ᐛ ) ᕗ</li>
-<li tabindex="3">∠( ᐛ 」∠)_</li>
+<li tabindex="1" goto="/about-us">關於我們</li>
+<li></li>
 </ul>
 </div>
 </div>
@@ -709,16 +922,118 @@ d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 
 </div>
 </nav>
 </header>
+<section>
+<section>
+<article page="about-us">
+<div class="page-layout flex">
+<section>
+<h2>關於我們</h2>
+<p>『V 程式語言台灣使用者社群』於2021年4月初成立。成立宗旨為提供使用 <a href="https://vlang.io/">V 程式語言</a>的台灣開發者可以一起分享討論的社群，共同經營V 程式語言在台灣的應用生態圈。目前已於Facebook建立<a href="https://www.facebook.com/groups/vlang.tw">vlang.tw</a>社團及MeWe建立<a href="https://mewe.com/join/vlangtw">vlang.tw</a>社群。</p>
+</section>
+</div>
+</article>
+<article page=""></article>
+</section>
+<section>
+<div class="brick-item" style="background-color: #5D87BF;">
+<div toggle-tabindex="view" class="svg-container" tabindex="1" goto="/">
+<svg id="icomoon-home3" version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+<path d="M32 19l-6-6v-9h-4v5l-6-6-16 16v1h4v10h10v-6h4v6h10v-10h4z"></path>
+</svg>
+</div>
+</div>
+</section>
+</section>
 <script>
 (() => {
-function toggleTabindex(value) {
-els = document.querySelectorAll("[toggle-tabindex]");
+/* === Simple SPA routing  === */
+const routes = [
+{ path: "/", view: "index" },
+{ path: "/about-us", view: "about-us" },
+];
+// routing function
+function router() {
+let match = routes.find(r => window.location.pathname == r.path);
+if (!match) {
+match = { path: window.location.pathname, view: "404" };
+}
+document.dispatchEvent(new CustomEvent("spa_view", { detail: match }));
+}
+// routing when history changes
+window.addEventListener("popstate", ev => {
+router();
+})
+// routing when DOM fully loaded and parsed
+document.addEventListener("DOMContentLoaded", ev => {
+router();
+})
+// custom event from `navigateTo()`
+document.addEventListener("spa_navigate", ev => {
+window.history.pushState(null, null, ev.detail.url);
+router();
+})
+})();
+</script>
+<script>
+(() => {
+function navigateTo(url) {
+document.dispatchEvent(new CustomEvent("spa_navigate", { detail: { url } }))
+}
+
+function cancelTabindex(value, attrValue = null) {
+let s = (typeof attrValue == "string") ? "[toggle-tabindex='" + attrValue + "']" : "[toggle-tabindex]";
+els = document.querySelectorAll(s);
 tabindex = value ? -1 : 0;
 for (const el of els) {
 el.setAttribute("tabindex", tabindex)
 }
 }
 
+/* === Mutation Observer === */
+const mutObs = new MutationObserver((mutationsList, observer) => {
+for (const mutation of mutationsList) {
+if (mutation.type == "attributes") {
+let v = mutation.target.getAttribute(mutation.attributeName)
+cancelTabindex(v !== "index")
+cancelTabindex(false, "view")
+}
+}
+});
+// observe `current-view` attribute on document body
+mutObs.observe(document.body, {
+attributeFilter: ["current-view"],
+attributeOldValue: true
+})
+
+/* === SPA view === */
+// custom event from `router()`
+document.addEventListener("spa_view", ev => {
+let { path, view } = ev.detail
+switch (view) {
+case "index":
+document.body.setAttribute("current-view", "index");
+break;
+case "about-us":
+document.body.setAttribute("current-view", 'page:' + view);
+let els = document.body.querySelectorAll("article[page]")
+for (const el of els) {
+el.classList.toggle("display", el.getAttribute("page") == view);
+}
+break;
+case "404":
+default:
+document.body.setAttribute("current-view", "not-found")
+break;
+}
+})
+// Navigate the route by clicking on the element
+for (const el of document.querySelectorAll("[goto]")) {
+el.addEventListener("click", ev => {
+navigateTo(ev.target.getAttribute("goto"))
+})
+}
+
+/* === Menu  === */
 let menuToggle = document.getElementById("x-menu-toggle");
 let menuItems = document.getElementById("x-menu-items");
 let tempElementMap = {}
@@ -728,7 +1043,13 @@ let menuToggleProxy = new Proxy(menuToggle, {
 set(target, key, value) {
 if (key == "checked") {
 // Control tabindex by toggling menu
-toggleTabindex(value)
+let v = document.body.getAttribute("current-view")
+if (v !== "index") {
+cancelTabindex(true)
+cancelTabindex(value, "view")
+} else {
+cancelTabindex(value)
+}
 }
 
 target[key] = value;
@@ -760,6 +1081,11 @@ if (ev.key == "Enter") {
 // Use Enter to toggle menu
 if (actEl.id == "x-menu-hamburger") {
 menuToggleProxy.checked = !menuToggle.checked;
+}
+// Use Enter to choose menu item
+if (actEl.hasAttribute("goto")) {
+menuToggleProxy.checked = false;
+navigateTo(actEl.getAttribute("goto"))
 }
 }
 })

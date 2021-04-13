@@ -1,0 +1,6 @@
+defaults:
+  -
+    scope:
+      type: "pages"
+    values:
+      permalink: /:path/:basename
