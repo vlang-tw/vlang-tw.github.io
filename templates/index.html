@@ -39,8 +39,52 @@
             grid-template-rows: 2fr 1fr;
         }
 
+
         article[page="about-us"] {
             background-color: #d9c8a6;
+        }
+
+        .page-layout section {
+            width: 80%;
+        }
+
+        .page-layout section h2 {
+            font: bold 1.2em sans-serif;
+            padding: .4em;
+            margin: .8em 0;
+            text-align: center;
+            line-height: 1.2em;
+            color: #444;
+            letter-spacing: .1em;
+            position: relative;
+        }
+
+        .page-layout section h2::before,
+        .page-layout section h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            height: 4px;
+            opacity: .8;
+        }
+
+        .page-layout section h2::before {
+            left: 35%;
+            width: 20%;
+            background-color: #7593bd;
+        }
+
+        .page-layout section h2::after {
+            right: 35%;
+            width: 10%;
+            background-color: #cfa117;
+        }
+
+        .page-layout section p {
+            font: 1.1em serif;
+            line-height: 1.1em;
+            text-indent: 2em;
+            text-align: justify;
         }
 
         section div.brick-item svg {
@@ -258,8 +302,7 @@
                         <div>
                             <ul id="x-menu-items">
                                 <li tabindex="1" goto="/about-us">關於我們</li>
-                                <li>ᕕ ( ᐛ ) ᕗ</li>
-                                <li>∠( ᐛ 」∠)_</li>
+                                <li></li>
                             </ul>
                         </div>
                     </div>
@@ -270,9 +313,11 @@
     <section>
         <section>
             <article page="about-us">
-                <div>
-                    <h2>關於我們</h2>
-                    <p>@{meta.description}</p>
+                <div class="page-layout flex">
+                    <section>
+                        <h2>關於我們</h2>
+                        <p>@{meta.description}</p>
+                    </section>
                 </div>
             </article>
             <article page=""></article>

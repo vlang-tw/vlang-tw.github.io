@@ -86,14 +86,18 @@
     text-align: center;
   }
 
-  .hamburger-item .menu>div ul li:hover {
+  .hamburger-item .menu>div ul li[tabindex]:hover {
     background-color: rgba(200, 200, 200, .3);
   }
 
-  .hamburger-item .menu>div ul li[tabindex]::before {
-    content: "$$";
+  .hamburger-item .menu>div ul li::before {
+    content: "...";
     margin-right: 0.5em;
     color: #9cafc9;
+  }
+
+  .hamburger-item .menu>div ul li[tabindex]::before {
+    content: ">>";
   }
 
   .hamburger-item .menu>div ul li+li {
