@@ -11,7 +11,7 @@ const (
 	domain     = 'vlang.tw'
 	author     = 'vlang-tw'
 	base_title = 'V 程式語言台灣使用者社群'
-	base_desc  = '讓V 程式語言的台灣使用者們一起分享討論的社群，經營V 程式語言在台灣的生態圈。'
+	base_desc  = '提供使用 V 程式語言的台灣開發者可以一起分享討論的社群，共同經營V 程式語言在台灣的應用生態圈。'
 )
 
 fn https(subdomain string, path string) string {
