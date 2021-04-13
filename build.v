@@ -3,6 +3,7 @@ module main
 import os
 import time
 import lib
+import markdown
 
 const (
 	language   = 'zh-Hant-TW'
@@ -53,6 +54,11 @@ fn gen_url_set(work_path string, enpoint string, additionals []string) []lib.URL
 	return entry
 }
 
+fn md_file_to_html(file_path string) string {
+	md := os.read_file(file_path) or { panic(err) }
+	return markdown.to_html(md)
+}
+
 //==========
 
 fn index(lang string, title string, canonical string) string {
@@ -70,6 +76,8 @@ fn index(lang string, title string, canonical string) string {
 	email := 'contact@$domain'
 	// Unsplash Photo
 	html_unplash_attribution := unplash_attribution_html('@joannakosinska', 'Joanna Kosinska')
+	// page content from markdown
+	md_about_us := md_file_to_html('data/about-us.md')
 	return $tmpl('templates/index.html')
 }
 
