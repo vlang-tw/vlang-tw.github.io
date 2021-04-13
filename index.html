@@ -1033,6 +1033,12 @@ navigateTo(ev.target.getAttribute("goto"))
 })
 }
 
+/* === Atricle content === */
+//Let the tabIndex of the anchor elements be controlled
+for (const el of document.querySelectorAll(".page-layout a")) {
+el.setAttribute("toggle-tabindex", "view")
+}
+
 /* === Menu  === */
 let menuToggle = document.getElementById("x-menu-toggle");
 let menuItems = document.getElementById("x-menu-items");
