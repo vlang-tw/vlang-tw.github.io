@@ -1,0 +1,6 @@
+region: jp
+tunnels:
+    # VS Code extention `ritwickdey.liveserver`
+    vscode-live-server:
+        proto: http
+        addr: 5500
