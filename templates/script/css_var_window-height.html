@@ -1,0 +1,10 @@
+<script name="css_var_window-height">
+    // Avoids `100vh` in css.
+    (() => {
+        function wh(ev) {
+            document.documentElement.style.setProperty('--window-height', window.innerHeight + 'px');
+        }
+        window.addEventListener('resize', wh)
+        wh()
+    })();
+</script>
