@@ -18,6 +18,16 @@
 <link rel="canonical" href="https://vlang.tw/" />
 <link rel="icon" type="image/x-icon" href="/favicons/favicon.ico" />
 <link rel="preload" as="image" href="/assets/img/header_background.jpg">
+<script name="css_var_window-height">
+// Avoids `100vh` in css.
+(() => {
+function wh(ev) {
+document.documentElement.style.setProperty('--window-height', window.innerHeight + 'px');
+}
+window.addEventListener('resize', wh)
+wh()
+})();
+</script>
 <style name="reset">
 /* http://meyerweb.com/eric/tools/css/reset/
 v2.0 | 20110126
@@ -243,7 +253,8 @@ z-index: 96;
 
 .hamburger-item .menu>div {
 width: 100vw;
-height: 100vh;
+/* script: css_var_window-height */
+height: var(--window-height);
 color: #fafafa;
 background: #4A607E;
 transition: all 0.4s ease;
@@ -356,7 +367,8 @@ outline-width: 4px;
 
 header {
 width: 100vw;
-height: 100vh;
+/* script: css_var_window-height */
+height: var(--window-height);
 display: grid;
 grid-template-columns: 40% 60%;
 grid-template-rows: 100%;
