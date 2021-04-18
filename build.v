@@ -47,7 +47,7 @@ fn gen_url_set(work_path string, enpoint string, additionals []string) []lib.URL
 	}
 	for path in additionals {
 		entry << lib.URLentry{
-			loc: '$enpoint$path'
+			loc: '$enpoint?/$path' // SPA redirect link
 			lastmod: time_now.ymmdd()
 		}
 	}
@@ -99,4 +99,6 @@ fn main() {
 	os.write_file('docs/sitemap.xml', s) or { panic(err) }
 	s = notfound(language, base_title)
 	os.write_file('docs/404.html', s) or { panic(err) }
+	// robots.txt
+	os.write_file('docs/robots.txt', 'Sitemap: ${https('', '/sitemap.xml')}') or { panic(err) }
 }
